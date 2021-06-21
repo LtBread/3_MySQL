@@ -16,4 +16,4 @@ VALUES
   (3, 1, 0),
   (3, 2, 0);
  
-SELECT storehouse_id, product_id, value FROM storehouses_products ORDER BY value;
+SELECT storehouse_id, product_id, value FROM storehouses_products ORDER BY value DESC;
