@@ -49,6 +49,13 @@ CREATE TABLE orders (
   FOREIGN KEY (user_id) REFERENCES users(id)
 ) COMMENT = 'Заказы';
 
+ALTER TABLE orders ADD CONSTRAINT orders_ibfk_1
+FOREIGN KEY (user_id) REFERENCES users(id)
+ON UPDATE CASCADE
+ON DELETE SET NULL;
+
+-- ALTER TABLE orders DROP FOREIGN KEY orders_ibfk_1;
+
 DROP TABLE IF EXISTS orders_products;
 CREATE TABLE orders_products (
   id SERIAL PRIMARY KEY,
