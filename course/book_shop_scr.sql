@@ -8,14 +8,14 @@ CREATE TABLE users (
 	login VARCHAR(100) NOT NULL UNIQUE,
 	password_hash VARCHAR(100),
 	email VARCHAR(100) NOT NULL UNIQUE,	
-	phone BIGINT UNSIGNED NOT NULL UNIQUE,
+	phone VARCHAR(100) NOT NULL UNIQUE,
 	firstname VARCHAR(100),
-	lastname VARCHAR(100),	
+	lastname VARCHAR(100),
+	gender CHAR(1),
 	birthday_at DATE,
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
  	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) COMMENT 'Зарегистрированные пользователи';
-
 
 DROP TABLE IF EXISTS genres;
 CREATE TABLE genres (
@@ -35,7 +35,7 @@ CREATE TABLE publishing_houses (
 	name VARCHAR(100)
 ) COMMENT 'Издательства';
 
-DROP TABLE IF EXISTS autors;
+DROP TABLE IF EXISTS authors;
 CREATE TABLE autors (
 	id SERIAL PRIMARY KEY,
 	firstname VARCHAR(100),
@@ -46,8 +46,8 @@ CREATE TABLE autors (
 DROP TABLE IF EXISTS age_limits;
 CREATE TABLE age_limits (
 	id SERIAL PRIMARY KEY,
-	age_limit tinyint,
-	description VARCHAR(255)
+	age_limit TINYINT,
+	description TEXT
 ) COMMENT 'Возрастные ограничения';
 
 -- Может быть лишнее
@@ -75,12 +75,12 @@ CREATE TABLE books (
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   	  	
-  	FOREIGN KEY (genre_id) REFERENCES genres(id),
-  	FOREIGN KEY (collection_id) REFERENCES collections(id),
-  	FOREIGN KEY (publishing_house_id) REFERENCES publishing_houses(id),
-  	FOREIGN KEY (autor_id) REFERENCES autors(id),
-  	FOREIGN KEY (age_limit_id) REFERENCES age_limits(id),
-  	FOREIGN KEY (cover_id) REFERENCES covers(id)  	
+  	FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE SET NULL,
+  	FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE SET NULL,
+  	FOREIGN KEY (publishing_house_id) REFERENCES publishing_houses(id) ON DELETE SET NULL,
+  	FOREIGN KEY (autor_id) REFERENCES autors(id) ON DELETE SET NULL,
+  	FOREIGN KEY (age_limit_id) REFERENCES age_limits(id) ON DELETE SET NULL,
+  	FOREIGN KEY (cover_id) REFERENCES covers(id) ON DELETE SET NULL  	
 ) COMMENT 'Книги';
 
 DROP TABLE IF EXISTS orders;
@@ -90,7 +90,7 @@ CREATE TABLE orders (
 -- 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 --  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		
-	FOREIGN KEY (user_id) REFERENCES users(id)
+	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 ) COMMENT 'Заказы';
 
 DROP TABLE IF EXISTS orders_books;
@@ -98,12 +98,12 @@ CREATE TABLE orders_books (
 	id SERIAL PRIMARY KEY,	
 	order_id BIGINT UNSIGNED,
 	book_id BIGINT UNSIGNED,
-	total INT DEFAULT 1,
+-- 	total INT DEFAULT 1,
 -- 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 --  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		
-	FOREIGN KEY (order_id) REFERENCES orders(id),
-	FOREIGN KEY (book_id) REFERENCES books(id)
+	FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL,
+	FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE SET NULL
 ) COMMENT 'Состав заказа';
 
 DROP TABLE IF EXISTS storehouses;
@@ -123,8 +123,8 @@ CREATE TABLE storehouses_books (
 -- 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 --  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	
-	FOREIGN KEY (storehouse_id) REFERENCES storehouses(id),
-	FOREIGN KEY (book_id) REFERENCES books(id)
+	FOREIGN KEY (storehouse_id) REFERENCES storehouses(id) ON DELETE SET NULL,
+	FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE SET NULL
 ) COMMENT 'Запасы на складе';
 
 DROP TABLE IF EXISTS disconts;
@@ -138,8 +138,8 @@ CREATE TABLE disconts (
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   	
-  	FOREIGN KEY (user_id) REFERENCES users(id),
-  	FOREIGN KEY (book_id) REFERENCES books(id)
+  	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  	FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE SET NULL
 ) COMMENT 'Скидки';
 
 

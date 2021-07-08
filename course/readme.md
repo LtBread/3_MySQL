@@ -26,7 +26,7 @@
 		id,
 		name;
 		
-	5 autors:
+	5 authors:
 		id,
 		firstname,
 		lastname;	
