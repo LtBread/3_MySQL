@@ -42,7 +42,6 @@ CREATE TABLE autors (
 	lastname VARCHAR(100)
 ) COMMENT 'Авторы';
 
--- Может быть лишнее
 DROP TABLE IF EXISTS age_limits;
 CREATE TABLE age_limits (
 	id SERIAL PRIMARY KEY,
@@ -51,13 +50,13 @@ CREATE TABLE age_limits (
 ) COMMENT 'Возрастные ограничения';
 
 -- Может быть лишнее
-DROP TABLE IF EXISTS covers;
-CREATE TABLE covers (
-	id SERIAL PRIMARY KEY,
-	filename VARCHAR(255),
-	size INT,
-	metadata JSON
-) COMMENT 'Обложки книг';
+-- DROP TABLE IF EXISTS covers;
+-- CREATE TABLE covers (
+-- 	id SERIAL PRIMARY KEY,
+-- 	filename VARCHAR(255),
+-- 	size INT,
+-- 	metadata JSON
+-- ) COMMENT 'Обложки книг';
 
 DROP TABLE IF EXISTS books;
 CREATE TABLE books (
@@ -65,9 +64,9 @@ CREATE TABLE books (
 	genre_id BIGINT UNSIGNED,
   	collection_id BIGINT UNSIGNED,
   	publishing_house_id BIGINT UNSIGNED,
-  	autor_id BIGINT UNSIGNED,
+  	author_id BIGINT UNSIGNED,
   	age_limit_id BIGINT UNSIGNED,
-  	cover_id BIGINT UNSIGNED,
+--  cover_id BIGINT UNSIGNED,
   	name VARCHAR(255),
 	description tinytext,
 	price DECIMAL (11,2),
@@ -80,8 +79,9 @@ CREATE TABLE books (
   	FOREIGN KEY (publishing_house_id) REFERENCES publishing_houses(id) ON DELETE SET NULL,
   	FOREIGN KEY (autor_id) REFERENCES autors(id) ON DELETE SET NULL,
   	FOREIGN KEY (age_limit_id) REFERENCES age_limits(id) ON DELETE SET NULL,
-  	FOREIGN KEY (cover_id) REFERENCES covers(id) ON DELETE SET NULL  	
+--  FOREIGN KEY (cover_id) REFERENCES covers(id) ON DELETE SET NULL  	
 ) COMMENT 'Книги';
+
 
 DROP TABLE IF EXISTS orders;
 CREATE TABLE orders (

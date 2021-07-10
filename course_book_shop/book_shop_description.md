@@ -31,12 +31,13 @@
 		firstname,
 		lastname;	
 		
-	6 age_limits:		?
+	6 age_limits:
 		id,
 		age_limit,
 		description;
 		
-	7 covers:			?
+	-- Исключена
+	7 covers:
 		id,
 		filename,
 		size,
