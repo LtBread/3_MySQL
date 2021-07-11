@@ -36,14 +36,7 @@
 		age_limit,
 		description;
 		
-	-- Исключена
-	7 covers:
-		id,
-		filename,
-		size,
-		metadata;
-		
-	8 books:
+	7 books:
 		id,	
 		genre_id,
 	  	collection_id,
@@ -57,27 +50,27 @@
 		created_at,
 	  	updated_at;
 	  	
-	9 orders:
+	8 orders:
 		id,
 		user_id;
 		
-	10 orders_books:
+	9 orders_books:
 		id,	
 		order_id,
 		book_id,
 		total;
 		
-	11 storehouses:
+	10 storehouses:
 		id,
 		address;
 		
-	12 storehouses_books:
+	11 storehouses_books:
 		id,	
 		storehouse_id,
 		book_id,
 		value;
 		
-	13 disconts:
+	12 disconts:
 		id,
 		user_id,
 		book_id,

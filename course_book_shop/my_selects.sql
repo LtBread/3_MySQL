@@ -4,7 +4,6 @@ SELECT * FROM collections;
 SELECT * FROM publishing_houses;
 SELECT * FROM authors;
 SELECT * FROM age_limits;
-SELECT * FROM covers;
 SELECT * FROM books;
 SELECT * FROM orders;
 SELECT * FROM orders_books;
@@ -27,18 +26,19 @@ SELECT o.id , o.user_id, u.login
 FROM orders o
 JOIN users u ON o.user_id = u.id;
 
--- Выбрка корзины покупателя с id = 8
+-- Выбрка корзины покупателя с id = 3
 SELECT 
-	concat(u.firstname, ' ', u.lastname), 
+	concat(u.firstname, ' ', u.lastname)  AS `user`, 
 	b.name, 
 	concat(a.firstname, ' ', a.lastname) AS 'authors',
-	concat(b.price, ' руб.')
+	ob.total,
+	concat(b.price, ' руб.') AS `cost`
 FROM users u 
 JOIN orders o ON o.user_id = u.id 
 JOIN orders_books ob ON ob.order_id = o.id
 JOIN books b ON b.id = ob.book_id 
-JOIN authors a ON b.autor_id = a.id
-WHERE u.id = 8;
+JOIN authors a ON b.author_id = a.id
+WHERE u.id = 3;
 
 -- Выбрка по остаткам книг повсем складам, как бы запросить остатки по всем складам?
 SELECT b.name, sb.value 

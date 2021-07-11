@@ -1,0 +1,106 @@
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY,
+	login VARCHAR(100) NOT NULL UNIQUE,
+	password_hash VARCHAR(100),
+	email VARCHAR(100) NOT NULL UNIQUE,	
+	phone VARCHAR(100) NOT NULL UNIQUE,
+	firstname VARCHAR(100),
+	lastname VARCHAR(100),
+	gender CHAR(1),
+	birthday_at DATE,
+	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+ 	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE genres (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100)	 
+);
+
+CREATE TABLE collections (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100)
+);
+
+CREATE TABLE publishing_houses (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100)
+);
+
+CREATE TABLE authors (
+	id SERIAL PRIMARY KEY,
+	firstname VARCHAR(100),
+	lastname VARCHAR(100)
+);
+
+CREATE TABLE age_limits (
+	id SERIAL PRIMARY KEY,
+	age_limit TINYINT,
+	description TEXT
+);
+
+CREATE TABLE books (
+	id SERIAL PRIMARY KEY,	
+	genre_id BIGINT UNSIGNED,
+  	collection_id BIGINT UNSIGNED,
+  	publishing_house_id BIGINT UNSIGNED,
+  	author_id BIGINT UNSIGNED,
+  	age_limit_id BIGINT UNSIGNED,
+  	name VARCHAR(255),
+	description tinytext,
+	price DECIMAL (11,2),
+	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  	  	
+  	FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE SET NULL,
+  	FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE SET NULL,
+  	FOREIGN KEY (publishing_house_id) REFERENCES publishing_houses(id) ON DELETE SET NULL,
+  	FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE SET NULL,
+  	FOREIGN KEY (age_limit_id) REFERENCES age_limits(id) ON DELETE SET NULL
+);
+
+CREATE TABLE orders (
+	id SERIAL PRIMARY KEY,
+	user_id BIGINT UNSIGNED,
+		
+	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE TABLE orders_books (
+	id SERIAL PRIMARY KEY,	
+	order_id BIGINT UNSIGNED,
+	book_id BIGINT UNSIGNED,
+	total INT DEFAULT 1,
+		
+	FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL,
+	FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE SET NULL
+);
+
+CREATE TABLE storehouses (
+	id SERIAL PRIMARY KEY,
+	address VARCHAR(255)
+);
+
+CREATE TABLE storehouses_books (
+	id SERIAL PRIMARY KEY,	
+	storehouse_id BIGINT UNSIGNED,
+	book_id BIGINT UNSIGNED,
+	value BIGINT UNSIGNED,
+	
+	FOREIGN KEY (storehouse_id) REFERENCES storehouses(id) ON DELETE SET NULL,
+	FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE SET NULL
+);
+
+CREATE TABLE disconts (
+	id SERIAL PRIMARY KEY,
+	user_id BIGINT UNSIGNED,
+	book_id BIGINT UNSIGNED,
+	discont FLOAT UNSIGNED,
+	started_at DATETIME,
+	finished_at DATETIME,
+	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  	
+  	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  	FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE SET NULL
+);
