@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
 	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, 
     firstname VARCHAR(50),
-    lastname VARCHAR(50) COMMENT 'Фамилия', -- COMMENT на случай, если имя неочевидное
+    lastname VARCHAR(50) COMMENT 'Фамиль', -- COMMENT на случай, если имя неочевидное
     email VARCHAR(120) UNIQUE,
  	password_hash VARCHAR(100), -- 123456 => vzx;clvgkajrpo9udfxvsldkrn24l5456345t
 	phone BIGINT UNSIGNED UNIQUE, 
@@ -51,7 +51,7 @@ CREATE TABLE friend_requests (
     `status` ENUM('requested', 'approved', 'declined', 'unfriended'),
     -- `status` TINYINT(1) UNSIGNED, -- в этом случае в коде хранили бы цифирный enum (0, 1, 2, 3...)
 	requested_at DATETIME DEFAULT NOW(),
-	updated_at DATETIME ON UPDATE CURRENT_TIMESTAMP, --	можно будет даже не упоминать это поле при обновлении
+	updated_at DATETIME ON UPDATE CURRENT_TIMESTAMP, -- можно будет даже не упоминать это поле при обновлении
 	
     PRIMARY KEY (initiator_user_id, target_user_id),
     FOREIGN KEY (initiator_user_id) REFERENCES users(id),
@@ -59,8 +59,8 @@ CREATE TABLE friend_requests (
     -- CHECK (initiator_user_id <> target_user_id)
 );
 -- чтобы пользователь сам себе не отправил запрос в друзья
--- ALTER TABLE friend_requests 
--- ADD CHECK(initiator_user_id <> target_user_id);
+ALTER TABLE friend_requests 
+ADD CHECK(initiator_user_id <> target_user_id);
 
 DROP TABLE IF EXISTS communities;
 CREATE TABLE communities(
@@ -99,15 +99,7 @@ CREATE TABLE media(
     filename VARCHAR(255),
     -- file blob,    	
     size INT,
-	metadata JSON,  -- JSON (англ. JavaScript Object Notation) 
-	-- Правила well formed JSON:
-    -- Данные написаны в виде пар «ключ:значение»
-    -- Данные разделены запятыми
-    -- Объект находится внутри фигурных скобок {}
-    -- Массив — внутри квадратных []
-	-- {"surname": "Иванов","name": "Иван",	"patronymic": "Иванович","birthdate": "01.01.1990",
-	--	"birthplace": "Москва", 	"phone": "8 926 766 48 48"
-    -- }
+	metadata JSON,
     created_at DATETIME DEFAULT NOW(),
     updated_at DATETIME ON UPDATE CURRENT_TIMESTAMP,
 
